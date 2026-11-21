@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shorn Electronics | Phones, Fridges &amp; Earpods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f4f7;--ink:#14202b;--muted:#5b6b79;--card:#fff;--line:#d9e0e6;--blue:#1f4bff;--mint:#d6f2e4;--sun:#ffd23f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0f161d;--ink:#eef3f7;--muted:#9aabb9;--card:#18222c;--line:#2a3743;--blue:#6f8bff;--mint:#1c3a2e;--sun:#ffd23f;color-scheme:dark}}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Bricolage Grotesque",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.35rem;letter-spacing:-.03em;text-decoration:none}
+.logo span{background:var(--blue);color:#fff;padding:0 8px;border-radius:6px;margin-right:6px}
+nav{display:flex;gap:18px;align-items:center}
+nav a{text-decoration:none;font-weight:600;font-size:.95rem}
+.cartbtn{background:var(--ink);color:var(--bg);border:0;border-radius:99px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+.hero{padding:72px 0 48px}
+.hero h1{font-size:clamp(2.6rem,8vw,5.5rem);line-height:.95;letter-spacing:-.045em;font-weight:800;max-width:11ch}
+.hero p{margin:20px 0 28px;color:var(--muted);max-width:46ch;font-size:1.1rem}
+.cta{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:10px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 24px}
+.tabs button{font:inherit;font-weight:600;padding:8px 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pic{height:170px;display:grid;place-items:center;font-size:4.5rem;background:var(--mint)}
+.item[data-c=fridge] .pic{background:#dfe8ff}
+.item[data-c=earpods] .pic{background:#fff1bd}
+.info{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.info h3{font-size:1.1rem;letter-spacing:-.01em}
+.info small{color:var(--muted)}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px}
+.price{font-weight:800;font-size:1.15rem}
+.add{font:inherit;font-weight:600;background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+section{padding:40px 0}
+h2{font-size:2rem;letter-spacing:-.03em;margin-bottom:16px}
+.info-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.info-row div{border-left:4px solid var(--sun);padding-left:14px}
+.info-row b{display:block;font-size:1.05rem}
+.info-row span{color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:28px 0;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer a{font-weight:600;color:var(--ink)}
+.wa{position:fixed;right:16px;bottom:16px;background:#25d366;color:#06361a;font-weight:700;text-decoration:none;padding:12px 18px;border-radius:99px;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:4}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:24px;width:min(420px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.line button{border:0;background:none;color:var(--blue);cursor:pointer;font:inherit}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin:16px 0}
+.dlg-actions{display:flex;gap:10px}
+.dlg-actions button{flex:1;font:inherit;font-weight:600;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.dlg-actions .go{background:var(--blue);color:#fff;border-color:var(--blue)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><span>S</span>Shorn Electronics</a>
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#contact">Contact</a>
+      <button class="cartbtn" id="openCart">Cart (<span id="count">0</span>)</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <h1>Phones, fridges and earpods.</h1>
+    <p>Genuine devices with warranty, fair prices and delivery across Nakuru and beyond.</p>
+    <a class="cta" href="#shop">Browse the shop</a>
+  </div>
+
+  <section id="shop" class="wrap">
+    <h2>Shop</h2>
+    <div class="tabs" role="group" aria-label="Filter products">
+      <button aria-pressed="true" data-f="all">All</button>
+      <button aria-pressed="false" data-f="phone">Phones</button>
+      <button aria-pressed="false" data-f="fridge">Fridges</button>
+      <button aria-pressed="false" data-f="earpods">Earpods</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="wrap">
+    <div class="info-row">
+      <div><b>1-year warranty</b><span>On every phone and fridge.</span></div>
+      <div><b>Same-day delivery</b><span>Order before 2pm within Nakuru town.</span></div>
+      <div><b>Pay with M-Pesa</b><span>Or cash on delivery.</span></div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <h2>Visit or call us</h2>
+    <p>Shorn Electronics, Nakuru Town. Call or WhatsApp: <b><a href="https://wa.me/254731198248" target="_blank" rel="noopener">0731 198 248</a></b>. Open Monday to Saturday, 8am to 7pm.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr"></span> Shorn Electronics</span>
+    <a href="https://github.com/your-username/shorn-electronics" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/254731198248?text=Hello%20Shorn%20Electronics%2C%20I%20have%20a%20question." target="_blank" rel="noopener">Chat on WhatsApp</a>
+
+<dialog id="cart">
+  <h2>Your cart</h2>
+  <div id="lines"></div>
+  <div class="total"><span>Total</span><span id="total">KES 0</span></div>
+  <div class="dlg-actions">
+    <button id="closeCart">Keep shopping</button>
+    <button class="go" id="order">Order on WhatsApp</button>
+  </div>
+</dialog>
+
+<script>
+const products=[
+ {id:1,c:"phone",e:"📱",n:"Shorn Lite 6",d:"6.5\" screen, 64GB, 5000mAh",p:12500},
+ {id:2,c:"phone",e:"📱",n:"Shorn Pro 8",d:"6.7\" AMOLED, 128GB, 50MP camera",p:28900},
+ {id:3,c:"phone",e:"📱",n:"Shorn Max 12",d:"6.8\" 120Hz, 256GB, fast charging",p:54000},
+ {id:4,c:"fridge",e:"🧊",n:"Compact Fridge 90L",d:"Single door, ideal for bedsitters",p:17500},
+ {id:5,c:"fridge",e:"🧊",n:"Double Door 250L",d:"Frost-free, energy saving",p:46000},
+ {id:6,c:"fridge",e:"🧊",n:"Side-by-Side 500L",d:"Water dispenser, inverter compressor",p:118000},
+ {id:7,c:"earpods",e:"🎧",n:"Earpods Go",d:"Bluetooth 5.3, 20 hours with case",p:1800},
+ {id:8,c:"earpods",e:"🎧",n:"Earpods Plus",d:"Noise reduction, touch controls",p:4200},
+ {id:9,c:"earpods",e:"🎧",n:"Earpods Studio",d:"Active noise cancelling, wireless charging",p:9800}
+];
+const money=n=>"KES "+n.toLocaleString("en-KE");
+const cart={};
+const grid=document.getElementById("grid");
+function render(f){
+  grid.innerHTML=products.filter(p=>f==="all"||p.c===f).map(p=>`
+   <article class="item" data-c="${p.c}">
+     <div class="pic" aria-hidden="true">${p.e}</div>
+     <div class="info"><h3>${p.n}</h3><small>${p.d}</small>
+       <div class="row"><span class="price">${money(p.p)}</span>
+       <button class="add" data-id="${p.id}">Add to cart</button></div></div>
+   </article>`).join("");
+}
+function update(){
+  const ids=Object.keys(cart);
+  document.getElementById("count").textContent=ids.reduce((s,i)=>s+cart[i],0);
+  let t=0;
+  document.getElementById("lines").innerHTML=ids.length?ids.map(i=>{
+    const p=products.find(x=>x.id==i);t+=p.p*cart[i];
+    return `<div class="line"><span>${p.n} x ${cart[i]}</span><span>${money(p.p*cart[i])} <button data-rm="${i}">Remove</button></span></div>`;
+  }).join(""):"<p>Your cart is empty. Add a product to get started.</p>";
+  document.getElementById("total").textContent=money(t);
+}
+grid.addEventListener("click",e=>{
+  const b=e.target.closest(".add");if(!b)return;
+  cart[b.dataset.id]=(cart[b.dataset.id]||0)+1;update();
+  b.textContent="Added";setTimeout(()=>b.textContent="Add to cart",900);
+});
+document.querySelector(".tabs").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  render(b.dataset.f);
+});
+const dlg=document.getElementById("cart");
+document.getElementById("openCart").onclick=()=>{update();dlg.showModal()};
+document.getElementById("closeCart").onclick=()=>dlg.close();
+document.getElementById("lines").addEventListener("click",e=>{
+  const i=e.target.dataset.rm;if(!i)return;
+  cart[i]--;if(cart[i]<=0)delete cart[i];update();
+});
+document.getElementById("order").onclick=()=>{
+  const ids=Object.keys(cart);if(!ids.length)return;
+  const msg="Hello Shorn Electronics, I would like to order:\n"+ids.map(i=>{const p=products.find(x=>x.id==i);return `- ${p.n} x ${cart[i]}`}).join("\n")+"\nTotal: "+document.getElementById("total").textContent;
+  window.open("https://wa.me/254731198248?text="+encodeURIComponent(msg),"_blank");
+};
+document.getElementById("yr").textContent=new Date().getFullYear();
+render("all");update();
+</script>
+</body>
+</html>
